@@ -1,0 +1,51 @@
+@model ASS_2.Models.Student
+
+@{
+    ViewData["Title"] = "Student Details";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Student Details</h4>
+        </div>
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-3">Student ID</dt>
+                <dd class="col-sm-9">@Model.Id</dd>
+
+                <dt class="col-sm-3">Full Name</dt>
+                <dd class="col-sm-9">@Model.Name</dd>
+
+                <dt class="col-sm-3">Age</dt>
+                <dd class="col-sm-9">@Model.Age</dd>
+
+                <dt class="col-sm-3">Department</dt>
+                <dd class="col-sm-9">@(Model.Department?.Name ?? "N/A")</dd>
+
+                <dt class="col-sm-3">Department Manager</dt>
+                <dd class="col-sm-9">@(Model.Department?.MgrName ?? "N/A")</dd>
+            </dl>
+
+            @if (Model.StuCrsRes != null && Model.StuCrsRes.Any())
+            {
+                <hr />
+                <h5>Enrolled Courses & Grades</h5>
+                <ul class="list-group list-group-flush">
+                    @foreach (var crs in Model.StuCrsRes)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>@(crs.Course?.Name ?? "Course")</span>
+                            <span class="badge bg-success rounded-pill">Grade: @crs.Grade</span>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+        <div class="card-footer bg-light">
+            <a href="/student/ShowAll" class="btn btn-secondary">
+                Back to Students List
+            </a>
+        </div>
+    </div>
+</div>
