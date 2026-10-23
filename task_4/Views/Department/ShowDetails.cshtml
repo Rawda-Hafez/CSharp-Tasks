@@ -1,0 +1,85 @@
+@model DepartmentDetailsViewModel
+
+@{
+    ViewData["Title"] = "Department Details";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Department Details (ViewModel Page)</h4>
+            <span class="badge @(Model.DepartmentState == "Main" ? "bg-success" : "bg-warning text-dark") fs-6">
+                State: @Model.DepartmentState
+            </span>
+        </div>
+        <div class="card-body">
+            <div class="row g-3">
+                <!-- Department Name -->
+                <div class="col-md-6">
+                    <label class="form-label text-muted fw-bold">Department Name</label>
+                    <div class="fs-5 fw-semibold text-dark">
+                        @Model.DepartmentName
+                    </div>
+                </div>
+
+                <!-- Manager Name -->
+                <div class="col-md-6">
+                    <label class="form-label text-muted fw-bold">Department Manager</label>
+                    <div class="fs-5 text-dark">
+                        @(string.IsNullOrEmpty(Model.ManagerName) ? "Not Assigned" : Model.ManagerName)
+                    </div>
+                </div>
+
+                <!-- Department State & Size -->
+                <div class="col-md-6">
+                    <label class="form-label text-muted fw-bold">Department State / Size</label>
+                    <div>
+                        <span class="badge @(Model.DepartmentState == "Main" ? "bg-success" : "bg-secondary") p-2 fs-6">
+                            @Model.DepartmentState
+                        </span>
+                        <small class="text-muted d-block mt-1">
+                            Total Students: <strong>@Model.StudentCount</strong>
+                            (Rule: Main if &gt; 50, branch if &lt; 50)
+                        </small>
+                    </div>
+                </div>
+
+                <!-- Students Exceeding 25 Years DropDownList -->
+                <div class="col-md-6">
+                    <label class="form-label text-muted fw-bold">
+                        Students Older than 25 Years (Drop-down)
+                    </label>
+
+                    @if (Model.StudentsAbove25 != null && Model.StudentsAbove25.Any())
+                    {
+                        <div class="input-group">
+                            <span class="input-group-text bg-light">
+                                <i class="bi bi-people"></i>
+                            </span>
+                            <select class="form-select" id="studentsAbove25Dropdown" asp-items="Model.StudentsAbove25">
+                                <option value="">-- Select a Student (&gt; 25 years) --</option>
+                            </select>
+                        </div>
+                        <small class="text-success mt-1 d-block">
+                            Found @Model.StudentsAbove25.Count student(s) over 25 years old.
+                        </small>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning mb-0 py-2" role="alert">
+                            <i class="bi bi-exclamation-circle"></i> No students exceed 25 years in this department.
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-light d-flex justify-content-between">
+            <a href="/Department/ShowAll" class="btn btn-secondary">
+                &larr; Back to Departments List
+            </a>
+            <a href="/student/ShowAll" class="btn btn-outline-primary">
+                View All Students
+            </a>
+        </div>
+    </div>
+</div>
